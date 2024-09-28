@@ -6,13 +6,10 @@ model = AutoModelForCausalLM.from_pretrained("Ashikan/dut-recipe-generator")
 
 
 def generate_recipe(ingredients):
-    # Prepare the input text
-    input_text = f"recipe for: {', '.join(ingredients)}"
-
-    # Tokenize and encode the input text
+    input_text = f"recipe for: {', '.join(ingredients)}"    
     inputs = tokenizer.encode(input_text, return_tensors="pt", max_length=50, truncation=True)
 
-    # Generate multiple potential recipes to increase chances of good output
+    
     outputs = model.generate(
         inputs,
         max_length=100,
@@ -25,10 +22,8 @@ def generate_recipe(ingredients):
         early_stopping=True
     )
 
-    # Decode the generated recipe and return the best result
     recipes = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
-
-    # Filter or return the first valid non-repetitive result
+    
     for recipe in recipes:
         if "mac mac" not in recipe:
             return recipe
