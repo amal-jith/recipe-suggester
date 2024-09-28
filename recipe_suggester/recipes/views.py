@@ -6,8 +6,7 @@ def recipe_generator_view(request):
     if request.method == 'POST':
         form = IngredientForm(request.POST)
         if form.is_valid():
-            ingredients = form.cleaned_data['ingredients'].split(",")
-            # Call the function to generate a recipe
+            ingredients = form.cleaned_data['ingredients'].split(",")           
             recipe = generate_recipe(ingredients)
             return render(request, 'suggestions.html', {'recipe': recipe, 'ingredients': ingredients})
     else:
